@@ -194,7 +194,7 @@
 
       async function getGitHubDocuments() {
         const response = await fetch(
-          "https://api.github.com/repos/villa-lucca/document-sharing/contents/documents?ref=main",
+          "https://api.github.com/repos/villa-lucca/document-sharing/contents/documents?ref=update%2Fdocuments",
           { headers: { Accept: "application/vnd.github+json" } },
         );
         if (!response.ok) throw new Error(`GitHub directory request failed: ${response.status}`);
