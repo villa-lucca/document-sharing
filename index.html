@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Document Sharing — a simple home for sharing documents with the people who need them."
+    />
+    <title>Document Sharing</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17221f;
+        --muted: #64716d;
+        --paper: #f8f7f2;
+        --card: rgba(255, 255, 255, 0.78);
+        --line: #dfe5df;
+        --green: #236b57;
+        --green-dark: #174b3e;
+        --mint: #dceee5;
+        --yellow: #f4c95d;
+        --shadow: 0 24px 70px rgba(29, 62, 50, 0.11);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 85% 4%, #e6f2ea 0, transparent 28rem),
+          var(--paper);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.6;
+      }
+
+      a { color: inherit; }
+
+      .wrap {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 750;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        color: white;
+        background: var(--green);
+        border-radius: 10px;
+        box-shadow: 4px 4px 0 var(--yellow);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 22px;
+        color: var(--green);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 22px;
+        height: 2px;
+        background: var(--yellow);
+        content: "";
+      }
+
+      section { padding: 92px 0; }
+      #documents { padding-top: 0; padding-bottom: 0; }
+      .section-heading { max-width: 620px; margin-bottom: 40px; }
+      .section-heading h2 { margin-bottom: 12px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.06em; }
+      .section-heading p { color: var(--muted); font-size: 1.05rem; }
+
+      .documents { display: grid; gap: 12px; }
+      .documents-status { margin: -20px 0 20px; color: var(--muted); font-size: 0.9rem; }
+      .document-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px 24px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card);
+        transition: border-color 160ms ease, transform 160ms ease;
+      }
+      .document-link:hover { border-color: var(--green); }
+      .document-name { color: var(--green); font-weight: 750; }
+      .document-actions { display: flex; align-items: center; gap: 14px; }
+      .document-open { color: var(--muted); font-size: 0.85rem; font-weight: 500; }
+      .document-open:hover { color: var(--green); }
+      .qr-button {
+        display: inline-flex;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--green);
+        background: white;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+      .qr-button:hover { border-color: var(--green); background: var(--mint); }
+      dialog { max-width: min(90vw, 360px); padding: 28px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--paper); box-shadow: var(--shadow); text-align: center; }
+      dialog::backdrop { background: rgba(23, 34, 31, 0.55); }
+      .qr-image { display: grid; width: 240px; height: 240px; max-width: 100%; margin: 18px auto; place-items: center; border-radius: 8px; background: white; overflow: hidden; }
+      .qr-title { margin: 0; color: var(--green); font-size: 1.15rem; }
+      .qr-close { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--green); background: white; cursor: pointer; }
+
+      footer { display: flex; justify-content: space-between; gap: 20px; padding: 30px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+      footer a { color: var(--green); font-weight: 700; text-decoration: none; }
+
+      @media (max-width: 760px) {
+        .wrap { width: min(100% - 28px, 560px); }
+        section { padding: 60px 0; }
+        footer { flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="wrap">
+      <a class="brand" href="#top" aria-label="Document Sharing home">
+        <span class="brand-mark" aria-hidden="true">↗</span>
+        <span>Document Sharing</span>
+      </a>
+    </header>
+
+    <main id="top">
+      <section class="wrap" id="documents" aria-labelledby="documents-title">
+        <div class="section-heading">
+          <p class="eyebrow">Shared files</p>
+        </div>
+        <p class="documents-status" id="documents-status" aria-live="polite">Scanning documents folder…</p>
+        <div class="documents" id="documents-list"></div>
+      </section>
+
+    </main>
+
+    <footer class="wrap">
+      <span>© 2026 Document Sharing</span>
+    </footer>
+
+    <dialog id="qr-dialog" aria-labelledby="qr-title">
+      <h2 class="qr-title" id="qr-title">Scan to open document</h2>
+      <div class="qr-image" id="qr-image" role="img" aria-label="QR code for the selected document"></div>
+      <button class="qr-close" id="qr-close" type="button">Close</button>
+    </dialog>
+
+    <script src="qrcode.js"></script>
+    <script>
+      const documentsList = document.querySelector("#documents-list");
+      const documentsStatus = document.querySelector("#documents-status");
+      const qrDialog = document.querySelector("#qr-dialog");
+      const qrImage = document.querySelector("#qr-image");
+      const qrClose = document.querySelector("#qr-close");
+
+      async function getLocalDocuments() {
+        const response = await fetch("documents/");
+        if (!response.ok) throw new Error(`Local directory request failed: ${response.status}`);
+
+        const directoryHtml = await response.text();
+        const directory = new DOMParser().parseFromString(directoryHtml, "text/html");
+        return [...directory.querySelectorAll("a[href]")]
+          .map((link) => ({ href: link.getAttribute("href"), name: link.textContent.trim() }))
+          .filter(({ href, name }) => href && name && href !== "../" && !href.endsWith("/"));
+      }
+
+      async function getGitHubDocuments() {
+        const response = await fetch(
+          "https://api.github.com/repos/villa-lucca/document-sharing/contents/documents?ref=main",
+          { headers: { Accept: "application/vnd.github+json" } },
+        );
+        if (!response.ok) throw new Error(`GitHub directory request failed: ${response.status}`);
+
+        const files = await response.json();
+        return files
+          .filter((file) => file.type === "file")
+          .map((file) => ({ href: file.path, name: file.name }));
+      }
+
+      async function loadDocuments() {
+        try {
+          let links;
+
+          try {
+            links = await getLocalDocuments();
+          } catch (localError) {
+            links = await getGitHubDocuments();
+          }
+
+          documentsList.replaceChildren();
+
+          if (!links.length) {
+            documentsStatus.textContent = "No documents found.";
+            return;
+          }
+
+          for (const { href, name } of links) {
+            const documentLink = document.createElement("div");
+            documentLink.className = "document-link";
+            const documentUrl = href.startsWith("documents/")
+              ? href
+              : `documents/${encodeURIComponent(decodeURIComponent(href))}`;
+            const documentName = document.createElement("span");
+            documentName.className = "document-name";
+            documentName.textContent = name;
+            const qrButton = document.createElement("button");
+            qrButton.className = "qr-button";
+            qrButton.type = "button";
+            qrButton.title = `Show QR code for ${name}`;
+            qrButton.setAttribute("aria-label", `Show QR code for ${name}`);
+            qrButton.textContent = "Get QR code";
+            qrButton.addEventListener("click", () => {
+              const absoluteUrl = new URL(documentUrl, window.location.href).href;
+              qrImage.replaceChildren();
+              qrImage.setAttribute("aria-label", `QR code for ${name}`);
+              new QRCode(qrImage, {
+                text: absoluteUrl,
+                width: 240,
+                height: 240,
+                correctLevel: QRCode.CorrectLevel.M,
+              });
+              qrDialog.showModal();
+            });
+            const openLink = document.createElement("a");
+            openLink.className = "document-open";
+            openLink.href = documentUrl;
+            openLink.target = "_blank";
+            openLink.rel = "noopener";
+            openLink.textContent = "Open document ↗";
+            const documentActions = document.createElement("div");
+            documentActions.className = "document-actions";
+            documentActions.append(qrButton, openLink);
+            documentLink.append(documentName, documentActions);
+            documentsList.append(documentLink);
+          }
+
+          documentsStatus.textContent = `${links.length} document${links.length === 1 ? "" : "s"} available.`;
+        } catch (error) {
+          documentsStatus.textContent = "Unable to scan the documents folder.";
+          console.error(error);
+        }
+      }
+
+      qrClose.addEventListener("click", () => qrDialog.close());
+      qrDialog.addEventListener("click", (event) => {
+        if (event.target === qrDialog) qrDialog.close();
+      });
+
+      loadDocuments();
+    </script>
+  </body>
+</html>
