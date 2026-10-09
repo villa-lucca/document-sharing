@@ -71,19 +71,6 @@
         box-shadow: 4px 4px 0 var(--yellow);
       }
 
-      nav { display: flex; gap: 24px; color: var(--muted); font-size: 0.92rem; }
-      nav a { text-decoration: none; }
-      nav a:hover { color: var(--green); }
-
-      .hero {
-        display: grid;
-        grid-template-columns: 1.05fr 0.95fr;
-        align-items: center;
-        gap: 72px;
-        min-height: 610px;
-        padding: 72px 0 100px;
-      }
-
       .eyebrow {
         display: inline-flex;
         align-items: center;
@@ -103,127 +90,36 @@
         content: "";
       }
 
-      h1, h2, p { margin-top: 0; }
-
-      h1 {
-        max-width: 650px;
-        margin-bottom: 24px;
-        font-size: clamp(3.5rem, 8vw, 6.8rem);
-        line-height: 0.94;
-        letter-spacing: -0.075em;
-      }
-
-      h1 span { color: var(--green); }
-
-      .intro {
-        max-width: 520px;
-        margin-bottom: 34px;
-        color: var(--muted);
-        font-size: 1.15rem;
-      }
-
-      .actions { display: flex; flex-wrap: wrap; gap: 14px; }
-
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        padding: 0 22px;
-        border: 1px solid var(--green);
-        border-radius: 999px;
-        color: white;
-        background: var(--green);
-        font-weight: 700;
-        text-decoration: none;
-        transition: transform 160ms ease, background 160ms ease;
-      }
-
-      .button:hover { background: var(--green-dark); transform: translateY(-2px); }
-      .button.secondary { color: var(--green); background: transparent; }
-      .button.secondary:hover { color: white; }
-
-      .visual {
-        position: relative;
-        min-height: 390px;
-        padding: 38px;
-        border: 1px solid rgba(35, 107, 87, 0.11);
-        border-radius: 34px;
-        background: var(--mint);
-        box-shadow: var(--shadow);
-        transform: rotate(2deg);
-      }
-
-      .visual::before,
-      .visual::after {
-        position: absolute;
-        border-radius: 50%;
-        content: "";
-      }
-
-      .visual::before { width: 90px; height: 90px; right: -28px; bottom: 35px; background: var(--yellow); }
-      .visual::after { width: 16px; height: 16px; left: 28px; top: 24px; background: var(--green); }
-
-      .folder {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        height: 280px;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 28px;
-        border: 1px solid rgba(23, 75, 62, 0.13);
-        border-radius: 20px;
-        background: #fffef9;
-        box-shadow: 0 16px 30px rgba(35, 107, 87, 0.12);
-        transform: rotate(-2deg);
-      }
-
-      .folder-top { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.82rem; }
-      .folder-icon { color: var(--green); font-size: 3.8rem; line-height: 1; }
-      .folder h2 { margin: 0; font-size: 1.45rem; letter-spacing: -0.04em; }
-      .folder p { margin: 4px 0 0; color: var(--muted); font-size: 0.9rem; }
-
       section { padding: 92px 0; }
       .section-heading { max-width: 620px; margin-bottom: 40px; }
       .section-heading h2 { margin-bottom: 12px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.06em; }
       .section-heading p { color: var(--muted); font-size: 1.05rem; }
 
-      .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-      .card { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
-      .card-number { color: var(--yellow); font-size: 1.4rem; font-weight: 900; }
-      .card h3 { margin: 26px 0 8px; font-size: 1.15rem; }
-      .card p { margin-bottom: 0; color: var(--muted); font-size: 0.94rem; }
-
-      .status {
-        display: grid;
-        grid-template-columns: 0.8fr 1.2fr;
-        gap: 70px;
-        align-items: start;
-        padding: 60px;
-        border-radius: 28px;
-        color: white;
-        background: var(--green-dark);
+      .documents { display: grid; gap: 12px; }
+      .documents-status { margin: -20px 0 20px; color: var(--muted); font-size: 0.9rem; }
+      .document-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px 24px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--card);
+        color: var(--green);
+        font-weight: 750;
+        text-decoration: none;
+        transition: border-color 160ms ease, transform 160ms ease;
       }
-
-      .status h2 { margin-bottom: 10px; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; letter-spacing: -0.06em; }
-      .status p { color: #c7ded5; }
-      .roadmap { display: grid; gap: 15px; }
-      .roadmap-item { display: flex; align-items: center; gap: 14px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.17); }
-      .check { display: grid; width: 23px; height: 23px; flex: 0 0 auto; place-items: center; border: 1px solid #8eb9a9; border-radius: 50%; color: var(--green-dark); background: #c7ded5; font-size: 0.8rem; font-weight: 900; }
+      .document-link:hover { border-color: var(--green); transform: translateX(4px); }
+      .document-meta { color: var(--muted); font-size: 0.85rem; font-weight: 500; }
 
       footer { display: flex; justify-content: space-between; gap: 20px; padding: 30px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
       footer a { color: var(--green); font-weight: 700; text-decoration: none; }
 
       @media (max-width: 760px) {
         .wrap { width: min(100% - 28px, 560px); }
-        nav { display: none; }
-        .hero { display: block; min-height: auto; padding: 75px 0 60px; }
-        .visual { min-height: 330px; margin-top: 60px; padding: 25px; }
-        .folder { height: 245px; }
         section { padding: 60px 0; }
-        .cards, .status { grid-template-columns: 1fr; }
-        .status { gap: 34px; padding: 32px 25px; }
         footer { flex-direction: column; }
       }
     </style>
@@ -234,71 +130,65 @@
         <span class="brand-mark" aria-hidden="true">↗</span>
         <span>Document Sharing</span>
       </a>
-      <nav aria-label="Main navigation">
-        <a href="#vision">Vision</a>
-        <a href="#roadmap">Roadmap</a>
-        <a href="https://github.com/villa-lucca/document-sharing">GitHub</a>
-      </nav>
     </header>
 
     <main id="top">
-      <section class="wrap hero" aria-labelledby="hero-title">
-        <div>
-          <p class="eyebrow">A simpler way to share</p>
-          <h1 id="hero-title">Documents, <span>together.</span></h1>
-          <p class="intro">A lightweight, focused home for sharing documents with the people who need them.</p>
-          <div class="actions">
-            <a class="button" href="https://github.com/villa-lucca/document-sharing">View on GitHub ↗</a>
-            <a class="button secondary" href="#roadmap">See the roadmap</a>
-          </div>
-        </div>
-
-        <div class="visual" aria-label="Illustration of a shared document folder">
-          <div class="folder">
-            <div class="folder-top"><span>SHARED SPACE</span><span>•••</span></div>
-            <div class="folder-icon" aria-hidden="true">▱</div>
-            <div>
-              <h2>Project files</h2>
-              <p>Everything your team needs, in one place.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="wrap" id="vision" aria-labelledby="vision-title">
+      <section class="wrap" id="documents" aria-labelledby="documents-title">
         <div class="section-heading">
-          <p class="eyebrow">The vision</p>
-          <h2>Less friction between a file and the person who needs it.</h2>
-          <p>Document Sharing is being shaped around a clear, approachable experience for managing and sharing important files.</p>
+          <p class="eyebrow">Shared files</p>
         </div>
-        <div class="cards">
-          <article class="card"><span class="card-number">01</span><h3>Organize</h3><p>Keep documents easy to find, understand, and manage.</p></article>
-          <article class="card"><span class="card-number">02</span><h3>Share</h3><p>Give the right people simple, controlled access to the right files.</p></article>
-          <article class="card"><span class="card-number">03</span><h3>Move forward</h3><p>Help recipients get what they need without unnecessary complexity.</p></article>
-        </div>
+        <p class="documents-status" id="documents-status" aria-live="polite">Scanning documents folder…</p>
+        <div class="documents" id="documents-list"></div>
       </section>
 
-      <section class="wrap" id="roadmap" aria-labelledby="roadmap-title">
-        <div class="status">
-          <div>
-            <p class="eyebrow">Project status</p>
-            <h2 id="roadmap-title">Early development.</h2>
-            <p>The repository is currently a project scaffold. Follow along as the first user flow and application foundations take shape.</p>
-          </div>
-          <div class="roadmap" aria-label="Project roadmap">
-            <div class="roadmap-item"><span class="check">○</span><span>Define the first user flow</span></div>
-            <div class="roadmap-item"><span class="check">○</span><span>Choose the application stack</span></div>
-            <div class="roadmap-item"><span class="check">○</span><span>Add document upload and storage</span></div>
-            <div class="roadmap-item"><span class="check">○</span><span>Add sharing and access controls</span></div>
-            <div class="roadmap-item"><span class="check">○</span><span>Build the web interface</span></div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="wrap">
       <span>© 2026 Document Sharing</span>
       <span>Built in the open · <a href="https://github.com/villa-lucca/document-sharing">GitHub ↗</a></span>
     </footer>
+
+    <script>
+      const documentsList = document.querySelector("#documents-list");
+      const documentsStatus = document.querySelector("#documents-status");
+
+      async function loadDocuments() {
+        try {
+          const response = await fetch("documents/");
+          if (!response.ok) throw new Error(`Directory request failed: ${response.status}`);
+
+          const directoryHtml = await response.text();
+          const directory = new DOMParser().parseFromString(directoryHtml, "text/html");
+          const links = [...directory.querySelectorAll("a[href]")]
+            .map((link) => ({ href: link.getAttribute("href"), name: link.textContent.trim() }))
+            .filter(({ href, name }) => href && name && href !== "../" && !href.endsWith("/"));
+
+          documentsList.replaceChildren();
+
+          if (!links.length) {
+            documentsStatus.textContent = "No documents found.";
+            return;
+          }
+
+          for (const { href, name } of links) {
+            const documentLink = document.createElement("a");
+            documentLink.className = "document-link";
+            documentLink.href = `documents/${encodeURIComponent(decodeURIComponent(href))}`;
+            documentLink.target = "_blank";
+            documentLink.rel = "noopener";
+            documentLink.innerHTML = `<span></span><span class="document-meta">Open document ↗</span>`;
+            documentLink.firstElementChild.textContent = name;
+            documentsList.append(documentLink);
+          }
+
+          documentsStatus.textContent = `${links.length} document${links.length === 1 ? "" : "s"} available.`;
+        } catch (error) {
+          documentsStatus.textContent = "Unable to scan the documents folder.";
+          console.error(error);
+        }
+      }
+
+      loadDocuments();
+    </script>
   </body>
 </html>
