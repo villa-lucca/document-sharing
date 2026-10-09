@@ -91,6 +91,7 @@
       }
 
       section { padding: 92px 0; }
+      #documents { padding-top: 0; padding-bottom: 0; }
       .section-heading { max-width: 620px; margin-bottom: 40px; }
       .section-heading h2 { margin-bottom: 12px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1.05; letter-spacing: -0.06em; }
       .section-heading p { color: var(--muted); font-size: 1.05rem; }
@@ -106,13 +107,32 @@
         border: 1px solid var(--line);
         border-radius: 16px;
         background: var(--card);
-        color: var(--green);
-        font-weight: 750;
-        text-decoration: none;
         transition: border-color 160ms ease, transform 160ms ease;
       }
-      .document-link:hover { border-color: var(--green); transform: translateX(4px); }
-      .document-meta { color: var(--muted); font-size: 0.85rem; font-weight: 500; }
+      .document-link:hover { border-color: var(--green); }
+      .document-name { color: var(--green); font-weight: 750; }
+      .document-actions { display: flex; align-items: center; gap: 14px; }
+      .document-open { color: var(--muted); font-size: 0.85rem; font-weight: 500; }
+      .document-open:hover { color: var(--green); }
+      .qr-button {
+        display: inline-flex;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--green);
+        background: white;
+        cursor: pointer;
+        font-size: 0.85rem;
+      }
+      .qr-button:hover { border-color: var(--green); background: var(--mint); }
+      dialog { max-width: min(90vw, 360px); padding: 28px; border: 1px solid var(--line); border-radius: 18px; color: var(--ink); background: var(--paper); box-shadow: var(--shadow); text-align: center; }
+      dialog::backdrop { background: rgba(23, 34, 31, 0.55); }
+      .qr-image { display: grid; width: 240px; height: 240px; max-width: 100%; margin: 18px auto; place-items: center; border-radius: 8px; background: white; overflow: hidden; }
+      .qr-title { margin: 0; color: var(--green); font-size: 1.15rem; }
+      .qr-close { padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; color: var(--green); background: white; cursor: pointer; }
 
       footer { display: flex; justify-content: space-between; gap: 20px; padding: 30px 0 42px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
       footer a { color: var(--green); font-weight: 700; text-decoration: none; }
@@ -145,12 +165,21 @@
 
     <footer class="wrap">
       <span>© 2026 Document Sharing</span>
-      <span>Built in the open · <a href="https://github.com/villa-lucca/document-sharing">GitHub ↗</a></span>
     </footer>
 
+    <dialog id="qr-dialog" aria-labelledby="qr-title">
+      <h2 class="qr-title" id="qr-title">Scan to open document</h2>
+      <div class="qr-image" id="qr-image" role="img" aria-label="QR code for the selected document"></div>
+      <button class="qr-close" id="qr-close" type="button">Close</button>
+    </dialog>
+
+    <script src="qrcode.js"></script>
     <script>
       const documentsList = document.querySelector("#documents-list");
       const documentsStatus = document.querySelector("#documents-status");
+      const qrDialog = document.querySelector("#qr-dialog");
+      const qrImage = document.querySelector("#qr-image");
+      const qrClose = document.querySelector("#qr-close");
 
       async function getLocalDocuments() {
         const response = await fetch("documents/");
@@ -194,15 +223,42 @@
           }
 
           for (const { href, name } of links) {
-            const documentLink = document.createElement("a");
+            const documentLink = document.createElement("div");
             documentLink.className = "document-link";
-            documentLink.href = href.startsWith("documents/")
+            const documentUrl = href.startsWith("documents/")
               ? href
               : `documents/${encodeURIComponent(decodeURIComponent(href))}`;
-            documentLink.target = "_blank";
-            documentLink.rel = "noopener";
-            documentLink.innerHTML = `<span></span><span class="document-meta">Open document ↗</span>`;
-            documentLink.firstElementChild.textContent = name;
+            const documentName = document.createElement("span");
+            documentName.className = "document-name";
+            documentName.textContent = name;
+            const qrButton = document.createElement("button");
+            qrButton.className = "qr-button";
+            qrButton.type = "button";
+            qrButton.title = `Show QR code for ${name}`;
+            qrButton.setAttribute("aria-label", `Show QR code for ${name}`);
+            qrButton.textContent = "Get QR code";
+            qrButton.addEventListener("click", () => {
+              const absoluteUrl = new URL(documentUrl, window.location.href).href;
+              qrImage.replaceChildren();
+              qrImage.setAttribute("aria-label", `QR code for ${name}`);
+              new QRCode(qrImage, {
+                text: absoluteUrl,
+                width: 240,
+                height: 240,
+                correctLevel: QRCode.CorrectLevel.M,
+              });
+              qrDialog.showModal();
+            });
+            const openLink = document.createElement("a");
+            openLink.className = "document-open";
+            openLink.href = documentUrl;
+            openLink.target = "_blank";
+            openLink.rel = "noopener";
+            openLink.textContent = "Open document ↗";
+            const documentActions = document.createElement("div");
+            documentActions.className = "document-actions";
+            documentActions.append(qrButton, openLink);
+            documentLink.append(documentName, documentActions);
             documentsList.append(documentLink);
           }
 
@@ -212,6 +268,11 @@
           console.error(error);
         }
       }
+
+      qrClose.addEventListener("click", () => qrDialog.close());
+      qrDialog.addEventListener("click", (event) => {
+        if (event.target === qrDialog) qrDialog.close();
+      });
 
       loadDocuments();
     </script>
