@@ -152,16 +152,39 @@
       const documentsList = document.querySelector("#documents-list");
       const documentsStatus = document.querySelector("#documents-status");
 
+      async function getLocalDocuments() {
+        const response = await fetch("documents/");
+        if (!response.ok) throw new Error(`Local directory request failed: ${response.status}`);
+
+        const directoryHtml = await response.text();
+        const directory = new DOMParser().parseFromString(directoryHtml, "text/html");
+        return [...directory.querySelectorAll("a[href]")]
+          .map((link) => ({ href: link.getAttribute("href"), name: link.textContent.trim() }))
+          .filter(({ href, name }) => href && name && href !== "../" && !href.endsWith("/"));
+      }
+
+      async function getGitHubDocuments() {
+        const response = await fetch(
+          "https://api.github.com/repos/villa-lucca/document-sharing/contents/documents?ref=main",
+          { headers: { Accept: "application/vnd.github+json" } },
+        );
+        if (!response.ok) throw new Error(`GitHub directory request failed: ${response.status}`);
+
+        const files = await response.json();
+        return files
+          .filter((file) => file.type === "file")
+          .map((file) => ({ href: file.path, name: file.name }));
+      }
+
       async function loadDocuments() {
         try {
-          const response = await fetch("documents/");
-          if (!response.ok) throw new Error(`Directory request failed: ${response.status}`);
+          let links;
 
-          const directoryHtml = await response.text();
-          const directory = new DOMParser().parseFromString(directoryHtml, "text/html");
-          const links = [...directory.querySelectorAll("a[href]")]
-            .map((link) => ({ href: link.getAttribute("href"), name: link.textContent.trim() }))
-            .filter(({ href, name }) => href && name && href !== "../" && !href.endsWith("/"));
+          try {
+            links = await getLocalDocuments();
+          } catch (localError) {
+            links = await getGitHubDocuments();
+          }
 
           documentsList.replaceChildren();
 
@@ -173,7 +196,9 @@
           for (const { href, name } of links) {
             const documentLink = document.createElement("a");
             documentLink.className = "document-link";
-            documentLink.href = `documents/${encodeURIComponent(decodeURIComponent(href))}`;
+            documentLink.href = href.startsWith("documents/")
+              ? href
+              : `documents/${encodeURIComponent(decodeURIComponent(href))}`;
             documentLink.target = "_blank";
             documentLink.rel = "noopener";
             documentLink.innerHTML = `<span></span><span class="document-meta">Open document ↗</span>`;
