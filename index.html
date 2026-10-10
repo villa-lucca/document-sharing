@@ -202,7 +202,7 @@
         const files = await response.json();
         return files
           .filter((file) => file.type === "file")
-          .map((file) => ({ href: file.path, name: file.name }));
+          .map((file) => ({ href: file.download_url, name: file.name }));
       }
 
       async function loadDocuments() {
@@ -225,7 +225,9 @@
           for (const { href, name } of links) {
             const documentLink = document.createElement("div");
             documentLink.className = "document-link";
-            const documentUrl = href.startsWith("documents/")
+            const documentUrl = href.startsWith("http://") || href.startsWith("https://")
+              ? href
+              : href.startsWith("documents/")
               ? href
               : `documents/${encodeURIComponent(decodeURIComponent(href))}`;
             const documentName = document.createElement("span");
